@@ -1,0 +1,1 @@
+watchexec --watch . --ignore 'out/*' --ignore '.tmp/*' --clear --restart "nimble build  --backend:js -d:nodejs -d:testing lisp && node out/lisp && nimble build --backend:js lisp && osascript -e 'display notification \"Ok\" with title \"Javascript\" sound name \"Glass\"' || osascript -e 'display notification \"Error\" with title \"Javascript\" sound name \"Basso\"'" 

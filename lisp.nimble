@@ -6,8 +6,13 @@ description   = "A new awesome nimble package"
 license       = "Proprietary"
 srcDir        = "src"
 bin           = @["lisp"]
+binDir        = "out"
+# backend       = "js" 
 
 
-# Dependencies
+# Dependencies 
 
-requires "nim >= 2.2.0"
+requires "nim >= 2.2.0", "karax"
+
+# after build:
+#   mvFile "out/lisp", "out/lisp.js"

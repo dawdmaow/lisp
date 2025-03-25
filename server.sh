@@ -1,0 +1,1 @@
+python3 -m http.server 1234 --bind localhost --directory . --cgi
