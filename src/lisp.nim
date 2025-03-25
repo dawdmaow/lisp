@@ -36,7 +36,7 @@ JS-Editor	Minimal, browser-based	Simple and lightweight
 # TODO: non-lisp syntax alternative
 # TODO: make builtins less minimalistic and more readable:
 # - ex: `\ () void (echo "lol")` should be `proc () -> void = echo "lol"`
-# TODO: indexing like foo[i] #
+# TODO: indexing like foo[i] # #
 # TODO: make some operators binary: `(a = b)` instead of `(= a b)`
 
 const
