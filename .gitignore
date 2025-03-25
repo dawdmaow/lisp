@@ -1,11 +1,11 @@
 .tmp
 .tmp/***
 
-out
-out/***
+# out
+# out/***
 
 .*
 .*/***
 
-node_modules
-node_modules/***
+# node_modules
+# node_modules/***
