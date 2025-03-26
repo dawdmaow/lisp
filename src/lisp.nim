@@ -2256,16 +2256,16 @@ proc runTests =
   when not defined release:
     print "Running tests...".styled("1;34")
 
-  for s in scripts:
-    # if s.kind == testScript:
-    print ("Testing: " & s.name).styled("1;35")
-    let ast = s.code.tokenize.toSeq.buildAst
-    discard newState().evaluate(ast)
+    for s in scripts:
+      # if s.kind == testScript:
+      print ("Testing: " & s.name).styled("1;35")
+      let ast = s.code.tokenize.toSeq.buildAst
+      discard newState().evaluate(ast)
 
-  print "Tests finished.".styled("1;32")
+    print "Tests finished.".styled("1;32")
 
 proc main =
-  print "Welcome to Dawid's toy language!".styled("1;33")
+  print "Dawid's Lisp interpreter".styled("1;33")
   runTests()
   when browser:
     {.emit: """
@@ -2308,7 +2308,6 @@ when browser:
         if (editor) {
           editor.resize();
         }
-        console.log("!!!")
       """.}
       setForeignNodeId "terminal"
       main()
