@@ -1,21 +1,25 @@
 (block
-    (vec2 := (object-type ((x number) (y number))))
-    (Team := (enum-type "white" "black"))
+    (vec2 := (object-type ((x number) (y number)))) ;; 2D vector type
+    (Team := (enum-type "white" "black")) ;; Team enum type
 
-    (PieceKind := (enum-type "pawn" "rook" "knight" "bishop" "queen" "king"))
-    (piece := (object-type (
+    (PieceKind := (enum-type "pawn" "rook" "knight" "bishop" "queen" "king")) 
+    
+    ;; Type for a chess piece
+    (piece := (object-type ( 
         (kind PieceKind)
         (pos vec2)
         (team Team)
         (did-pawn-move bool)
     )))
 
+    ;; Type for a chess board
     (State := (object-type (
         (board (table-type vec2 piece))
         (current-team Team)
         (turn number)
     )))
 
+    ;; Function to create a new chess piece
     (new-state := (\ () State
         (current-team := "white")
         (turn := 0)
@@ -55,6 +59,7 @@
         (State ((board board) (current-team current-team) (turn turn)))
     ))
 
+    ;; Function to translate a piece to a character
     (piece-kind-char := (\ ((kind PieceKind) (team Team)) string
         (case team
             ("white"
@@ -80,6 +85,7 @@
         )
     ))
  
+    ;; Function to convert the state to a string representation
     (state-as-str := (\ ((state State)) string
         (result := "")
         (for y (1 .. 8)
@@ -101,8 +107,7 @@
         result
     ))
 
-    (state := (new-state))
-
-    (tmp := (state-as-str state))
-    (echo tmp)
+    (state := (new-state)) ;; Create a new chess state
+    (tmp := (state-as-str state)) ;; Convert the state to a string representation
+    (echo tmp) ;; Print the string representation of the state
 )

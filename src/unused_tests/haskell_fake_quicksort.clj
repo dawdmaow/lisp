@@ -1,3 +1,4 @@
+;; Haskell's famous "quicksort" algorithm, just for fun.
 (quicksort := (\ (a) any
     (if (empty? a) (return a))
     (middle := (array-get a 0))

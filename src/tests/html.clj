@@ -1,8 +1,12 @@
+;; HTML builder function (translated AST nodes tree to a HTML string).
+
 (block
+    ;; Tags that shouldn't be closed.
     (self-closing-tags := (quote (
         "area" "base" "br" "col" "embed" "hr" "img" "input" "keygen" "link" "menuitem" "meta" "param" "source" "track" "wbr"
     )))
 
+    ;; This is the functino.
     (build-html := (\ (tree) any
         ;; Build HTML from a tree made of nested lists.
         
@@ -17,7 +21,7 @@
             ;; This function won't be accessible from the outside of the build-html function.
 
             (for _ (0 .. indent)
-                (str-add result "  ")
+                (str-add result "  ") ;; For pretty output.
             )
             ;; Padding for nested tags
 
@@ -25,17 +29,16 @@
             (expect (len l) 3)
             ;; Every tag is a list with name, attributes and body.
 
-            (tag := (to-str (l 0)))
-            (attributes := (l 1))
-            (body := (l 2))
+            (tag := (to-str (l 0))) ;; First element is tag.
+            (attributes := (l 1)) ;; Second element is attributes.
+            (body := (l 2)) ;; Body is the last element.
 
-            (str-add result "<" tag)
+            (str-add result "<" tag) ;; Opening the tag.
 
             (if (not (empty? attributes))
-                (str-add result " ")
+                (str-add result " ") 
             )
-            ;; Separator between tag and attributes.
-
+            ;; Apply HTML attributes.
             (for (idx el) attributes
                 (expect (is-list el) true)
                 (expect (len el) 2)
@@ -49,48 +52,30 @@
                 (to-str field-val)
                 "\""
                 )
-
-                ;; (echo idx)
-                ;; (echo (high attributes))
-                ;; (echo (!= idx (high attributes)))
-                ;; (echo (= idx (high attributes)))
-                ;; (echo (not (= idx (high attributes))))
                 (if (!= idx (high attributes))
                     (str-add result " ")
                 )
-                ;; Separator between attributes.
             ) 
-            ;; Appending attributes.
 
-            (str-add result ">")
-            ;; Closing the bracket pair.
+            (str-add result ">") ;; Closing the bracket pair.
 
-            (if (is-list body)
-                ;; If body is a list, then it's a nested tag.
-                
+            (if (is-list body) ;; If body is a list, then it's a nested tag.
                 (if (not (empty? body))
-                ;; We only process it if it's not empty.
-                
-                (block
-                    (str-add result "\n")
-                    
-                    (for el body
-                    ;; (for _ (range 0 indent)
-                    ;;   (str-add result "  ")
-                    ;; )
-
-                        (indent += 1)
-
-                        (helper el)
+                    (block
                         (str-add result "\n")
+                        
+                        (for el body
+                            (indent += 1)
 
-                        (indent -= 1)
+                            (helper el) ;; Recursive call!
+                            (str-add result "\n")
+
+                            (indent -= 1)
+                        )
                     )
                 )
-                )
                 (block
-                    (expect (is-str body) true) 
-                    ;; Expecting text content for the tag.
+                    (expect (is-str body) true)  ;; Expecting text content for the tag.
 
                     (str-add result "\n")
                     (for _ (0 .. (indent + 1))
@@ -101,10 +86,7 @@
                 )
             )
 
-            (if (not (contains self-closing-tags tag))
-                ;; Close the opened tag.
-                ;; (Some tags should't be closed.)
-                
+            (if (not (contains self-closing-tags tag)) ;; Close the opened tag (if it's not self-closing).
                 (block
                     (for _ (0 .. indent)
                         (str-add result "  ")
@@ -115,14 +97,14 @@
                 )
 
                 (block
-                    (expect (empty? body) true) ;; If it's a self-closing tag, then it shouldn't have a body.
+                    (expect (empty? body) true) ;; If it's a self-closing tag, then it can't have a body anyway.
                 )
             )
         ))
 
         (helper tree)
         
-        result
+        result ;; Implicit return.
     ))
 
     (html :=
